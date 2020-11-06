@@ -12,42 +12,59 @@ The program should display the factored form in an Entry widget.
 Extension: make the + between a,b and b,c buttons that will toggle
 between + and -.
 """
+#!python3
 
 import tkinter as tk
-from tkinter import * 
-import math
+from tkinter import *
 
-window = tk.Tk()
+win = tk.Tk()
+win.title("Factoring trinomials")
 
-eoutput = StringVar()
-eoutput.set("Output part")
+l1 = tk.Label(win, text="1.Enter the coefficients\n2.Press the Factor button to get the result")
 
-def clickFunction():
-    num1 = e1.get()
-    b = float(num1)
-    num2 = e1.get()
-    c = float(num2)
-    answer = (-b+math.sqrt(b*2-4*c))/2 and (-b-math.sqrt(b*2-4*c))/2
-    a_entry.delete(0,END)
-    a_entry.insert(0,answer)
+l2 = tk.Label(win, text="x^2 +")
+l3 = tk.Label(win, text="x +")
+e1 = tk.Entry(win, width=1)
+e2 = tk.Entry(win, width=1)
+l4 = tk.Label(win, text=" = 0")
 
-l1 = Label(window, text = "Enter the value of b")
-e1 = Entry(window, width = 20)
-l2 = Label(window, text = "Enter the value of c")
-e2 = Entry(window, width = 20)
-b1 = Button(window, text = "Click to calculate", command = clickFunction)
-a_label = Label(window, text = "Answer goes here: ")
-a_entry = Entry(window, width = 20, textvariable = eoutput)
+output = StringVar()
+str1 = "Output goes here"
+output.set(str1)
+e3 = tk.Entry(win, width=len(str1), textvariable=output)
 
-l1.grid(row=1,column=1)
-e1.grid(row=1,column=1)
-l2.grid(row=1,column=1)
-e2.grid(row=1,column=1)
-b1.grid(row=1,column=1)
-a_label.grid(row=2,column=1)
-a_entry.grid(row=3,column=2)
+def factor():
+    b = e1.get()
+    c = e2.get()
+    b = int(b)
+    c = int(c)
+    if b > 0:
+        for i in range(1,c+1):
+            if i + c/i == b:
+                m = i
+                n = int(c/i)
+        output.set("(x + " + str(m) + ")(x +" + str(n) + ") = 0")
+        
+    if b < 0:
+        for i in range(1,c+1):
+            if i + c/i == -b:
+                m = i
+                n = int(c/i)
+        output.set("(x - " + str(m) + ")(x -" + str(n) + ") = 0")
 
-window.mainloop
+b1 = tk.Button(win, text="Factor", command=factor)
+
+l1.grid(row=1, columnspan=6)
+l2.grid(row=2, column=1)
+e1.grid(row=2, column=2)
+l3.grid(row=2, column=3)
+e2.grid(row=2, column=4)
+l4.grid(row=2, column=5)
+b1.grid(row=3, column=3)
+e3.grid(row=4, columnspan=8)
+
+
+win.mainloop()
 
 
 
